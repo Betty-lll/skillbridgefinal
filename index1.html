@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="AI-powered workplace simulations that prepare students for real professional life. Trusted by career services across Australia." />
+<title>SkillBridge — Workplace experience, on tap.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a1f1c;
+    --ink-soft: #1a3835;
+    --paper: #f5f1e8;
+    --paper-soft: #ede7d8;
+    --cream: #faf7ee;
+    --teal: #1d5d52;
+    --teal-deep: #0f3d36;
+    --teal-tint: #dde8e3;
+    --accent: #c8612e;
+    --accent-soft: #f4ddc8;
+    --amber: #d9a441;
+    --rose: #b85968;
+    --line: rgba(10, 31, 28, 0.12);
+    --line-soft: rgba(10, 31, 28, 0.06);
+    --mute: #5a6f6b;
+    --font-display: 'Fraunces', serif;
+    --font-sans: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(29,93,82,0.04) 0%, transparent 38%),
+      radial-gradient(circle at 88% 65%, rgba(200,97,46,0.03) 0%, transparent 38%);
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+
+  /* === NAV === */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,241,232,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+  .logo { display: flex; align-items: center; gap: 11px; font-family: var(--font-display); font-size: 22px; font-weight: 500; letter-spacing: -0.02em; }
+  .logo-mark { width: 34px; height: 34px; border-radius: 8px; background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 18px; font-style: italic; font-weight: 500; }
+  .nav-links { display: flex; align-items: center; gap: 34px; }
+  .nav-links a { font-size: 14.5px; color: var(--ink-soft); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta { background: var(--ink); color: var(--paper); padding: 11px 22px; border-radius: 999px; font-size: 14px; font-weight: 500; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--teal-deep); }
+  @media (max-width: 760px) { .nav-links a:not(.nav-cta) { display: none; } }
+
+  /* === HERO === */
+  .hero { padding: 90px 0 100px; }
+  .hero-eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); margin-bottom: 28px; display: inline-flex; align-items: center; gap: 12px; }
+  .hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--teal); }
+  .hero h1 { font-family: var(--font-display); font-size: clamp(48px, 7vw, 92px); line-height: 0.98; font-weight: 400; letter-spacing: -0.035em; margin-bottom: 32px; max-width: 980px; }
+  .hero h1 em { font-style: italic; color: var(--teal); }
+  .hero h1 .arrow { display: inline-block; color: var(--accent); font-style: normal; transform: translateY(-8px); }
+  .hero p { font-size: 19px; color: var(--ink-soft); max-width: 620px; line-height: 1.55; margin-bottom: 42px; }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary { background: var(--ink); color: var(--paper); padding: 16px 32px; border-radius: 999px; font-size: 15px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
+  .btn-primary:hover { background: var(--teal-deep); transform: translateY(-2px); }
+  .btn-secondary { background: transparent; color: var(--ink); padding: 16px 32px; border-radius: 999px; font-size: 15px; font-weight: 500; border: 1.5px solid var(--ink); display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
+  .btn-secondary:hover { background: var(--ink); color: var(--paper); }
+
+  /* === SOCIAL PROOF === */
+  .proof { padding: 30px 0 80px; }
+  .proof-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); margin-bottom: 24px; text-align: center; }
+  .proof-logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 48px; align-items: center; }
+  .proof-logos span { font-family: var(--font-display); font-size: 17px; color: var(--ink-soft); opacity: 0.7; font-weight: 500; letter-spacing: -0.01em; }
+
+  /* === SECTION === */
+  .section { padding: 100px 0; }
+  .section-eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+  .section-title { font-family: var(--font-display); font-size: clamp(36px, 5vw, 60px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em; margin-bottom: 22px; max-width: 800px; }
+  .section-title em { font-style: italic; color: var(--teal); }
+  .section-sub { font-size: 18px; color: var(--ink-soft); max-width: 620px; line-height: 1.55; margin-bottom: 56px; }
+
+  /* === PROBLEM STATS === */
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  .stat-card { background: var(--paper); padding: 44px 36px; }
+  .stat-num { font-family: var(--font-display); font-size: 78px; line-height: 1; font-weight: 400; letter-spacing: -0.04em; margin-bottom: 14px; }
+  .stat-num em { font-style: italic; color: var(--teal); font-size: 56px; }
+  .stat-headline { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; line-height: 1.4; }
+  .stat-desc { font-size: 13.5px; color: var(--mute); line-height: 1.55; margin-bottom: 14px; }
+  .stat-source { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute); opacity: 0.7; }
+  @media (max-width: 880px) { .stats-grid { grid-template-columns: 1fr; } }
+
+  /* === HOW IT WORKS === */
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .step-card { padding: 30px 28px; background: var(--cream); border: 1px solid var(--line-soft); border-radius: 16px; }
+  .step-num { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); margin-bottom: 28px; }
+  .step-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 18px; font-style: italic; margin-bottom: 22px; }
+  .step-card:nth-child(2) .step-icon { background: var(--teal); }
+  .step-card:nth-child(3) .step-icon { background: var(--accent); }
+  .step-card:nth-child(4) .step-icon { background: var(--amber); }
+  .step-title { font-family: var(--font-display); font-size: 19px; font-weight: 500; letter-spacing: -0.015em; margin-bottom: 10px; }
+  .step-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+  @media (max-width: 920px) { .steps-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .steps-grid { grid-template-columns: 1fr; } }
+
+  /* === SIMULATION LIBRARY === */
+  .sim-filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 38px; }
+  .sim-filter { font-size: 13px; padding: 9px 18px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink-soft); cursor: pointer; transition: all 0.2s; font-family: var(--font-sans); }
+  .sim-filter.active, .sim-filter:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .sims-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 940px) { .sims-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .sims-grid { grid-template-columns: 1fr; } }
+
+  .sim-card {
+    background: var(--cream);
+    border: 1px solid var(--line-soft);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: opacity 0.25s ease;
+  }
+  /* Non-clickable cards (coming soon) — slightly dimmed */
+  .sim-card:not(.sim-card-live) {
+    opacity: 0.72;
+    cursor: not-allowed;
+  }
+  .sim-card:not(.sim-card-live):hover { opacity: 0.85; }
+
+  /* Clickable card (the live Marketing Analyst simulation) */
+  a.sim-card-live {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+  }
+  a.sim-card-live:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(10, 31, 28, 0.16);
+    border-color: var(--ink);
+  }
+  a.sim-card-live:hover .sim-badge-live {
+    background: var(--ink);
+    color: var(--paper);
+    transform: scale(1.05);
+  }
+
+  .sim-thumb {
+    aspect-ratio: 16/9;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 18px;
+  }
+  .sim-thumb-marketing { background: linear-gradient(140deg, #1d5d52, #0f3d36); }
+  .sim-thumb-consulting { background: linear-gradient(140deg, #c8612e, #8a3d18); }
+  .sim-thumb-design     { background: linear-gradient(140deg, #5b5798, #3a3770); }
+  .sim-thumb-finance    { background: linear-gradient(140deg, #d9a441, #a87a26); }
+  .sim-thumb-tech       { background: linear-gradient(140deg, #3a6e62, #1f4940); }
+  .sim-thumb-business   { background: linear-gradient(140deg, #b85968, #8a3d4a); }
+  .sim-thumb-ops        { background: linear-gradient(140deg, #4a6b85, #2d4660); }
+  .sim-thumb-brand      { background: linear-gradient(140deg, #7a934a, #4f6a2b); }
+
+  .sim-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.92);
+    background: rgba(255,255,255,0.18);
+    padding: 5px 11px;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+  .sim-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    padding: 6px 11px;
+    border-radius: 999px;
+    z-index: 2;
+    transition: all 0.25s ease;
+  }
+  .sim-badge-live {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--ink);
+    box-shadow: 0 2px 8px rgba(10, 31, 28, 0.18);
+  }
+  .sim-badge-soon {
+    background: rgba(10, 31, 28, 0.6);
+    color: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(6px);
+  }
+  .sim-body { padding: 22px 22px 26px; flex: 1; display: flex; flex-direction: column; }
+  .sim-title { font-family: var(--font-display); font-size: 19px; font-weight: 500; letter-spacing: -0.015em; margin-bottom: 6px; }
+  .sim-meta { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 18px; }
+  .sim-foot { display: flex; align-items: center; gap: 10px; margin-top: auto; font-family: var(--font-mono); font-size: 11.5px; color: var(--mute); }
+  .sim-dot { color: var(--ink); opacity: 0.4; }
+
+  /* === FEATURE DEEP-DIVES === */
+  .feature { display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center; margin-bottom: 90px; }
+  .feature:last-child { margin-bottom: 0; }
+  .feature.reverse { grid-template-columns: 1.05fr 1fr; }
+  .feature.reverse .feature-text { order: 2; }
+  .feature-num { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .feature-text h3 { font-family: var(--font-display); font-size: clamp(30px, 4vw, 42px); line-height: 1.08; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 22px; }
+  .feature-text h3 em { font-style: italic; color: var(--teal); }
+  .feature-text p { font-size: 16px; color: var(--ink-soft); line-height: 1.6; margin-bottom: 20px; }
+  .feature-text ul { list-style: none; }
+  .feature-text li { font-size: 14.5px; color: var(--ink-soft); padding: 9px 0 9px 22px; position: relative; border-top: 1px solid var(--line-soft); }
+  .feature-text li:first-child { border-top: none; }
+  .feature-text li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-family: var(--font-mono); font-size: 13px; top: 9px; }
+
+  /* feature visuals */
+  .branch-viz { background: var(--cream); border: 1px solid var(--line); border-radius: 18px; padding: 36px 32px; }
+  .branch-head { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+  .branch-trigger { background: var(--ink); color: var(--paper); padding: 14px 18px; border-radius: 10px; font-size: 14px; font-weight: 500; margin-bottom: 16px; }
+  .branch-arrow { text-align: center; color: var(--mute); margin: 6px 0; font-family: var(--font-mono); }
+  .branch-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .branch-path { padding: 14px; background: var(--paper-soft); border-radius: 10px; font-size: 13px; line-height: 1.4; border: 1px dashed var(--line); }
+  .branch-path-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 6px; }
+  .branch-outcomes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .branch-outcome { padding: 14px; border-radius: 10px; font-size: 12.5px; line-height: 1.45; }
+  .branch-outcome.good { background: var(--teal-tint); color: var(--teal-deep); }
+  .branch-outcome.bad  { background: #f0dcd2; color: #6b3217; }
+
+  .chat-viz { background: var(--cream); border: 1px solid var(--line); border-radius: 18px; padding: 28px; }
+  .chat-msg { display: flex; gap: 12px; margin-bottom: 14px; }
+  .chat-av { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; font-family: var(--font-display); }
+  .chat-av.client { background: var(--accent-soft); color: var(--accent); }
+  .chat-av.mgr    { background: var(--teal-tint); color: var(--teal-deep); }
+  .chat-av.peer   { background: #f0e3eb; color: var(--rose); }
+  .chat-av.you    { background: var(--ink); color: var(--paper); }
+  .chat-body { flex: 1; }
+  .chat-name { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .chat-text { font-size: 13.5px; color: var(--ink-soft); background: var(--paper); padding: 10px 13px; border-radius: 10px; border-top-left-radius: 4px; line-height: 1.45; }
+  .chat-msg.you .chat-body { text-align: right; }
+  .chat-text.typing { font-style: italic; color: var(--mute); }
+
+  .chain-viz { background: var(--cream); border: 1px solid var(--line); border-radius: 18px; padding: 30px 28px; }
+  .chain-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; padding: 14px 0; border-top: 1px solid var(--line-soft); }
+  .chain-row:first-child { border-top: none; padding-top: 0; }
+  .chain-action { font-size: 13.5px; font-weight: 500; }
+  .chain-arrow { color: var(--accent); font-family: var(--font-mono); }
+  .chain-result { font-size: 13px; color: var(--ink-soft); line-height: 1.4; }
+  .chain-result.good { color: var(--teal-deep); }
+  .chain-result.bad  { color: #7a2d3a; }
+
+  @media (max-width: 920px) {
+    .feature, .feature.reverse { grid-template-columns: 1fr; gap: 40px; }
+    .feature.reverse .feature-text { order: 0; }
+  }
+
+  /* === COMPARISON / DARK SECTION === */
+  .dark-section { background: var(--ink); color: var(--paper); padding: 100px 0; border-radius: 32px; margin: 60px 0; }
+  .dark-section .section-eyebrow { color: var(--amber); }
+  .dark-section .section-title { color: var(--paper); }
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 50px; }
+  .compare-col { padding: 32px; border-radius: 16px; }
+  .compare-col.old { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+  .compare-col.new { background: var(--paper); color: var(--ink); }
+  .compare-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; opacity: 0.7; }
+  .compare-col h4 { font-family: var(--font-display); font-size: 22px; font-weight: 500; letter-spacing: -0.015em; margin-bottom: 22px; }
+  .compare-list { list-style: none; }
+  .compare-list li { padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.08); font-size: 14.5px; line-height: 1.5; }
+  .compare-col.new .compare-list li { border-top-color: var(--line); color: var(--ink-soft); }
+  .compare-list li:first-child { border-top: none; }
+  @media (max-width: 760px) { .compare-grid { grid-template-columns: 1fr; } }
+
+  /* === UNIVERSITY DASHBOARD === */
+  .dash-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; align-items: center; }
+  .dash-mock { background: var(--cream); border: 1px solid var(--line); border-radius: 18px; padding: 28px; }
+  .dash-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px solid var(--line-soft); }
+  .dash-head-title { font-family: var(--font-display); font-size: 17px; font-weight: 500; }
+  .dash-head-meta { font-family: var(--font-mono); font-size: 11px; color: var(--mute); }
+  .dash-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 22px; }
+  .dash-stat { padding: 16px; background: var(--paper-soft); border-radius: 10px; }
+  .dash-stat-num { font-family: var(--font-display); font-size: 28px; font-weight: 500; letter-spacing: -0.02em; }
+  .dash-stat-num em { font-style: italic; color: var(--teal); }
+  .dash-stat-label { font-size: 11.5px; color: var(--mute); margin-top: 4px; font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .uni-features { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 36px; }
+  .uni-feat-icon { font-family: var(--font-display); font-size: 16px; font-style: italic; color: var(--accent); margin-bottom: 8px; }
+  .uni-feat h5 { font-family: var(--font-display); font-size: 16px; font-weight: 500; margin-bottom: 6px; }
+  .uni-feat p { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+  @media (max-width: 920px) { .dash-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .uni-features { grid-template-columns: 1fr; } .dash-stats { grid-template-columns: 1fr; } }
+
+  /* === TESTIMONIALS === */
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .testi { padding: 32px 28px; background: var(--cream); border: 1px solid var(--line-soft); border-radius: 16px; display: flex; flex-direction: column; }
+  .testi-quote { font-family: var(--font-display); font-size: 19px; line-height: 1.35; font-weight: 400; font-style: italic; margin-bottom: 24px; flex: 1; }
+  .testi-quote em { color: var(--accent); font-style: italic; }
+  .testi-person { display: flex; align-items: center; gap: 12px; padding-top: 18px; border-top: 1px solid var(--line-soft); }
+  .testi-av { width: 38px; height: 38px; border-radius: 50%; background: var(--teal-tint); color: var(--teal-deep); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; font-family: var(--font-display); }
+  .testi-name { font-size: 13.5px; font-weight: 500; }
+  .testi-role { font-size: 12px; color: var(--mute); }
+  @media (max-width: 880px) { .testi-grid { grid-template-columns: 1fr; } }
+
+  /* === BIG STATS BLOCK === */
+  .bigstats { background: var(--teal-deep); color: var(--paper); padding: 80px 56px; border-radius: 28px; }
+  .bigstats-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 18px; }
+  .bigstats h3 { font-family: var(--font-display); font-size: clamp(28px, 4vw, 40px); line-height: 1.15; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 50px; max-width: 700px; }
+  .bigstats h3 em { font-style: italic; color: var(--amber); }
+  .bigstats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+  .bigstat-num { font-family: var(--font-display); font-size: 64px; line-height: 1; font-weight: 400; letter-spacing: -0.04em; margin-bottom: 10px; }
+  .bigstat-num em { font-style: italic; color: var(--amber); font-size: 44px; }
+  .bigstat-label { font-size: 13.5px; opacity: 0.78; line-height: 1.5; }
+  @media (max-width: 880px) { .bigstats-grid { grid-template-columns: repeat(2, 1fr); gap: 36px; } }
+  @media (max-width: 480px) { .bigstats-grid { grid-template-columns: 1fr; } .bigstats { padding: 56px 32px; } }
+
+  /* === TRUST === */
+  .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .trust-card { padding: 28px 24px; background: var(--cream); border: 1px solid var(--line-soft); border-radius: 14px; }
+  .trust-icon { width: 34px; height: 34px; border-radius: 9px; background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 15px; font-style: italic; margin-bottom: 18px; }
+  .trust-card:nth-child(2) .trust-icon { background: var(--teal); }
+  .trust-card:nth-child(3) .trust-icon { background: var(--accent); }
+  .trust-card:nth-child(4) .trust-icon { background: var(--amber); }
+  .trust-card h5 { font-family: var(--font-display); font-size: 16.5px; font-weight: 500; margin-bottom: 10px; }
+  .trust-card p { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+  @media (max-width: 940px) { .trust-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .trust-grid { grid-template-columns: 1fr; } }
+
+  /* === PRICING === */
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 920px; }
+  .price-card { padding: 40px 36px; background: var(--cream); border: 1px solid var(--line); border-radius: 18px; }
+  .price-card.featured { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .price-eyebrow { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mute); margin-bottom: 14px; }
+  .price-card.featured .price-eyebrow { color: var(--amber); }
+  .price-name { font-family: var(--font-display); font-size: 26px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 18px; }
+  .price-name em { font-style: italic; color: var(--teal); }
+  .price-card.featured .price-name em { color: var(--amber); }
+  .price-amount { font-family: var(--font-display); font-size: 38px; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 6px; }
+  .price-note { font-size: 13px; color: var(--mute); margin-bottom: 28px; }
+  .price-card.featured .price-note { color: rgba(255,255,255,0.6); }
+  .price-list { list-style: none; margin-bottom: 32px; }
+  .price-list li { padding: 11px 0 11px 24px; border-top: 1px solid var(--line-soft); font-size: 14px; color: var(--ink-soft); position: relative; }
+  .price-list li:first-child { border-top: none; }
+  .price-list li::before { content: '✓'; position: absolute; left: 0; color: var(--teal); font-size: 13px; }
+  .price-card.featured .price-list li { color: rgba(255,255,255,0.78); border-top-color: rgba(255,255,255,0.1); }
+  .price-card.featured .price-list li::before { color: var(--amber); }
+  .price-cta { display: inline-block; padding: 13px 26px; border-radius: 999px; font-size: 14px; font-weight: 500; transition: all 0.2s; }
+  .price-card .price-cta { background: var(--ink); color: var(--paper); }
+  .price-card.featured .price-cta { background: var(--paper); color: var(--ink); }
+  .price-cta:hover { transform: translateY(-2px); }
+  @media (max-width: 760px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+  /* === FAQ === */
+  .faq-list { max-width: 800px; }
+  .faq-item { border-bottom: 1px solid var(--line); }
+  .faq-q { padding: 22px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-display); font-size: 19px; font-weight: 500; letter-spacing: -0.01em; user-select: none; }
+  .faq-toggle { font-family: var(--font-mono); font-size: 18px; color: var(--accent); transition: transform 0.3s; }
+  .faq-item.open .faq-toggle { transform: rotate(45deg); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; font-size: 15px; color: var(--ink-soft); line-height: 1.6; }
+  .faq-item.open .faq-a { max-height: 500px; padding-bottom: 22px; }
+
+  /* === FINAL CTA === */
+  .final-cta { text-align: center; padding: 110px 32px; background: var(--ink); color: var(--paper); border-radius: 32px; margin: 60px 0 80px; }
+  .final-cta h2 { font-family: var(--font-display); font-size: clamp(36px, 5vw, 56px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em; margin-bottom: 40px; max-width: 720px; margin-left: auto; margin-right: auto; }
+  .final-cta h2 em { font-style: italic; color: var(--amber); }
+  .final-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .final-cta .btn-primary { background: var(--paper); color: var(--ink); }
+  .final-cta .btn-primary:hover { background: var(--amber); }
+  .final-cta .btn-secondary { color: var(--paper); border-color: rgba(255,255,255,0.4); }
+  .final-cta .btn-secondary:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+
+  /* === FOOTER === */
+  .footer { padding: 70px 0 50px; border-top: 1px solid var(--line); }
+  .footer-top { display: grid; grid-template-columns: 1.5fr repeat(4, 1fr); gap: 50px; margin-bottom: 60px; }
+  .footer-brand .logo { margin-bottom: 22px; }
+  .footer-tag { font-family: var(--font-display); font-style: italic; font-size: 19px; color: var(--ink-soft); line-height: 1.3; margin-bottom: 24px; }
+  .footer-newsletter { font-size: 13px; color: var(--ink-soft); margin-bottom: 12px; }
+  .footer-news-form { display: flex; gap: 8px; max-width: 320px; }
+  .footer-news-form input { flex: 1; padding: 10px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); font-family: var(--font-sans); font-size: 13.5px; }
+  .footer-news-form button { padding: 10px 18px; background: var(--ink); color: var(--paper); border: none; border-radius: 999px; font-family: var(--font-sans); font-size: 13px; cursor: pointer; }
+  .footer-col h6 { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); margin-bottom: 18px; font-weight: 500; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 11px; }
+  .footer-col a { font-size: 14px; color: var(--ink-soft); transition: color 0.2s; }
+  .footer-col a:hover { color: var(--ink); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 30px; border-top: 1px solid var(--line); font-size: 13px; color: var(--mute); }
+  .footer-social { display: flex; gap: 18px; }
+  @media (max-width: 880px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .footer-top { grid-template-columns: 1fr; } .footer-bottom { flex-direction: column; gap: 16px; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="#" class="logo"><div class="logo-mark">S</div>SkillBridge</a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#simulations">Simulations</a>
+      <a href="#universities">For universities</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#cta" class="nav-cta">Book a demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero wrap">
+  <div class="hero-eyebrow">Workplace simulations · powered by AI</div>
+  <h1>Workplace <em>experience,</em><br>
+    <span class="arrow">→</span> on tap.</h1>
+  <p>SkillBridge is an AI-powered simulation platform where students step into real professional roles — and learn how decisions, communication, and stakeholders actually behave under pressure. No internship required.</p>
+  <div class="hero-ctas">
+    <a href="#cta" class="btn-primary">Book a 30-minute demo →</a>
+    <a href="#simulations" class="btn-secondary">Browse simulations</a>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="proof wrap">
+  <div class="proof-label">Trusted by career services at</div>
+  <div class="proof-logos">
+    <span>University of Melbourne</span>
+    <span>Monash University</span>
+    <span>RMIT</span>
+    <span>UNSW Sydney</span>
+    <span>ANU</span>
+    <span>Sydney Uni</span>
+  </div>
+</section>
+
+<!-- PROBLEM STATS -->
+<section class="section wrap">
+  <div class="section-eyebrow">The graduate readiness gap</div>
+  <h2 class="section-title">University teaches the theory. The workplace asks for something <em>else entirely.</em></h2>
+  <p class="section-sub">Employers want graduates who can decide, communicate, and adapt under pressure. Most students leave university having practised none of those things in any setting that felt real.</p>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-num">87<em>%</em></div>
+      <div class="stat-headline">of employers say graduates lack workplace readiness</div>
+      <div class="stat-desc">Across recent surveys of hiring managers in Australia and the UK, soft skills and judgement gaps were cited more often than technical gaps.</div>
+      <div class="stat-source">Source · Illustrative</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">1 in 4</div>
+      <div class="stat-headline">students never access an internship before graduation</div>
+      <div class="stat-desc">Internships are unevenly distributed by network, geography, and program. Students from regional, lower-income, or non-business backgrounds are most affected.</div>
+      <div class="stat-source">Source · Illustrative</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">11 months</div>
+      <div class="stat-headline">average time to land a first graduate role</div>
+      <div class="stat-desc">Even strong graduates take nearly a year to convert academic skills into job-ready capability — costing both students and employers.</div>
+      <div class="stat-source">Source · Illustrative</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section wrap" id="how">
+  <div class="section-eyebrow">How it works · for students</div>
+  <h2 class="section-title">Four steps to your first <em>real</em> work experience.</h2>
+  <p class="section-sub">Each simulation runs 30–90 minutes. Students can return at any time, choose new roles, or replay scenarios to practise different decisions.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">Step 01</div>
+      <div class="step-icon">R</div>
+      <div class="step-title">Pick a role</div>
+      <div class="step-desc">Choose from 40+ professional roles across marketing, consulting, design, finance, and engineering.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Step 02</div>
+      <div class="step-icon">P</div>
+      <div class="step-title">Enter the project</div>
+      <div class="step-desc">Meet your AI manager, client, and team. Receive a real brief with real constraints.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Step 03</div>
+      <div class="step-icon">D</div>
+      <div class="step-title">Make decisions</div>
+      <div class="step-desc">Negotiate, explain, prioritise. Watch the project change based on how you respond.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Step 04</div>
+      <div class="step-icon">F</div>
+      <div class="step-title">Get your report</div>
+      <div class="step-desc">Receive a personalised skill assessment across decision-making, communication, and judgement.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULATION LIBRARY -->
+<section class="section wrap" id="simulations">
+  <div class="section-eyebrow">The simulation library</div>
+  <h2 class="section-title">40+ roles. Real industries. <em>Every scenario, different.</em></h2>
+  <p class="section-sub">New scenarios are added monthly. Each one is built with input from working professionals in the field, then refined through pilot testing with university career advisors.</p>
+  <div class="sim-filters">
+    <button class="sim-filter active">All</button>
+    <button class="sim-filter">Business</button>
+    <button class="sim-filter">Consulting</button>
+    <button class="sim-filter">Design</button>
+    <button class="sim-filter">Finance</button>
+    <button class="sim-filter">Tech</button>
+    <button class="sim-filter">Marketing</button>
+  </div>
+  <div class="sims-grid">
+
+    <!-- LIVE: Junior Marketing Analyst — links to simulate.html -->
+    <a href="simulate.html" class="sim-card sim-card-live" aria-label="Try the Junior Marketing Analyst simulation now">
+      <div class="sim-thumb sim-thumb-marketing">
+        <span class="sim-tag">MARKETING</span>
+        <span class="sim-badge sim-badge-live">▶ TRY NOW</span>
+      </div>
+      <div class="sim-body">
+        <h3 class="sim-title">Junior Marketing Analyst</h3>
+        <p class="sim-meta">Acme Health · 5-day campaign</p>
+        <div class="sim-foot"><span>60 min</span><span class="sim-dot">•</span><span>Beginner</span></div>
+      </div>
+    </a>
+
+    <!-- Coming soon (x7) -->
+    <div class="sim-card">
+      <div class="sim-thumb sim-thumb-consulting">
+        <span class="sim-tag">CONSULTING</span>
+        <span class="sim-badge sim-badge-soon">COMING SOON</span>
+      </div>
+      <div class="sim-body">
+        <h3 class="sim-title">Junior Strategy Consultant</h3>
+        <p class="sim-meta">Beacon Partners · M&A advisory</p>
+        <div class="sim-foot"><span>90 min</span><span class="sim-dot">•</span><span>Intermediate</span></div>
+      </div>
+    </div>
+
+    <div class="sim-card">
+      <div class="sim-thumb sim-thumb-design">
+        <span class="sim-tag">DESIGN</span>
+        <span class="sim-badge sim-badge-soon">COMING SOON</span>
+      </div>
+      <div class="sim-body">
+        <h3 class="sim-title">Junior UX Designer</h3>
+        <p class="sim-meta">Northstar Tech · Onboarding redesign</p>
+        <div class="sim-foot"><span>75 min</span><span class="sim-dot">•</span><span>Beginner</span></div>
+      </div>
+    </div>
+
+    <div class="sim-card">
+      <div class="sim-thumb sim-thumb-finance">
+        <span class="sim-tag">FINANCE</span>
+        <span class="sim-badge sim-badge-soon">COMING SOON</span>
+      </div>
+      <div class="sim-body">
+        <h3 class="sim-title">Junior Financial Analyst</h3>
+        <p class="sim-meta">Meridian Bank · Credit review</p>
+        <div class="sim-foot"><span>90 min</span><span class="sim-dot">•</span><span>Intermediate</span></div>
+      </div>
+    </div>
+
+    <div class="sim-card">
+      <div class="sim-thumb sim-thumb-tech">
+        <span class="sim-tag">TECH</span>
+        <span class="sim-badge sim-badge-soon">COMING SOON</span>
+      </div>
+      <div class="sim-body">
+        <h3 class="sim-title">Junior Software Engineer</h3>
+        <p class="sim-meta">Halo Systems · Sprint planning</p>
+        <div class="sim-foot"><span>60 min</span><span class="sim-dot">•</span><span>Beginner</span></div>
+      </div>
+    </div>
+
+    <div class="sim-card">
+      <div class="sim-thumb sim-thumb-business">
+        <span class="sim-tag">BUSINESS</span>
+        <span class="sim-badge sim-badge-soon">COMING SOON</span>
+      </div>
+      <div class="sim-body">
+        <h3 class="sim-title">Junior Product Manager</h3>
+        <p class="sim-meta">Linnet Labs · Feature launch</p>
+        <div class="sim-foot"><span>75 min</span><span class="sim-dot">•</span><span>Intermediate</span></div>
+      </div>
+    </div>
+
+    <div class="sim-card">
+      <div class="sim-thumb sim-thumb-ops">
+        <span class="sim-tag">CONSULTING</span>
+        <span class="sim-badge sim-badge-soon">COMING SOON</span>
+      </div>
+      <div class="sim-body">
+        <h3 class="sim-title">Junior Operations Analyst</h3>
+        <p class="sim-meta">Atlas Logistics · Supply chain</p>
+        <div class="sim-foot"><span>60 min</span><span class="sim-dot">•</span><span>Beginner</span></div>
+      </div>
+    </div>
+
+    <div class="sim-card">
+      <div class="sim-thumb sim-thumb-brand">
+        <span class="sim-tag">MARKETING</span>
+        <span class="sim-badge sim-badge-soon">COMING SOON</span>
+      </div>
+      <div class="sim-body">
+        <h3 class="sim-title">Junior Brand Strategist</h3>
+        <p class="sim-meta">Field & Co · Rebrand launch</p>
+        <div class="sim-foot"><span>75 min</span><span class="sim-dot">•</span><span>Intermediate</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE DEEP-DIVES -->
+<section class="section wrap">
+  <div class="section-eyebrow">What makes it different</div>
+  <h2 class="section-title">Theory teaches <em>what.</em> SkillBridge teaches what happens <em>next.</em></h2>
+  <p class="section-sub">Three design choices separate SkillBridge from static case studies and traditional virtual internships.</p>
+
+  <div class="feature">
+    <div class="feature-text">
+      <div class="feature-num">01 · Dynamic scenarios</div>
+      <h3>The project <em>responds</em> to what you actually do.</h3>
+      <p>Most virtual internships are linear. Read, complete, submit, done. SkillBridge isn't. Every decision a student makes forks the storyline — changing client mood, project scope, team dynamics, and final outcomes.</p>
+      <ul>
+        <li>Branching narratives with hundreds of decision states per scenario</li>
+        <li>AI-generated stakeholder responses tailored to student reasoning</li>
+        <li>Replayable — no two attempts unfold the same way</li>
+      </ul>
+    </div>
+    <div class="branch-viz">
+      <div class="branch-head">Day 3 · Budget cut</div>
+      <div class="branch-trigger">Client cuts Q3 budget by 20%</div>
+      <div class="branch-arrow">↓</div>
+      <div class="branch-paths">
+        <div class="branch-path"><div class="branch-path-label">Path A</div>Justify allocation with data</div>
+        <div class="branch-path"><div class="branch-path-label">Path B</div>Push back without evidence</div>
+      </div>
+      <div class="branch-arrow">↓</div>
+      <div class="branch-outcomes">
+        <div class="branch-outcome good">Manager trusts you · invites you to Day 4 client call</div>
+        <div class="branch-outcome bad">Manager asks for a written rationale by EOD</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature reverse">
+    <div class="chat-viz">
+      <div class="chat-msg">
+        <div class="chat-av client">SC</div>
+        <div class="chat-body">
+          <div class="chat-name">Sarah Chen · Client</div>
+          <div class="chat-text">Finance just cut 20% from the budget. Can you still hit the target?</div>
+        </div>
+      </div>
+      <div class="chat-msg">
+        <div class="chat-av mgr">DK</div>
+        <div class="chat-body">
+          <div class="chat-name">David Kumar · Your manager</div>
+          <div class="chat-text">Walk me through your reasoning before you reply to Sarah.</div>
+        </div>
+      </div>
+      <div class="chat-msg">
+        <div class="chat-av peer">MP</div>
+        <div class="chat-body">
+          <div class="chat-name">Mia Park · Senior analyst</div>
+          <div class="chat-text">CAC on paid search is up 18% this quarter. Protect organic first.</div>
+        </div>
+      </div>
+      <div class="chat-msg you">
+        <div class="chat-av you">YOU</div>
+        <div class="chat-body">
+          <div class="chat-name">You</div>
+          <div class="chat-text typing">Drafting reply...</div>
+        </div>
+      </div>
+    </div>
+    <div class="feature-text">
+      <div class="feature-num">02 · AI stakeholders</div>
+      <h3>Three perspectives. <em>In real time.</em></h3>
+      <p>A real workplace isn't one-way. Students don't just receive feedback — they negotiate with a demanding manager, manage a shifting client, and respond to a peer who disagrees. All three respond to tone, reasoning, and timing.</p>
+      <ul>
+        <li>Distinct AI personalities trained on professional communication patterns</li>
+        <li>Stakeholders remember context across the entire project</li>
+        <li>Communication scored as carefully as the decisions themselves</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="feature-text">
+      <div class="feature-num">03 · Consequence learning</div>
+      <h3>Every choice shows up <em>later.</em></h3>
+      <p>Poor communication leads to unclear deliverables. Ignoring a colleague's input affects team morale. Even a strong decision loses value if a student can't explain it. SkillBridge tracks all of it — and surfaces it in the final report.</p>
+      <ul>
+        <li>Cause-and-effect chains tracked across every day of the simulation</li>
+        <li>Stakeholder relationships build or erode based on student behaviour</li>
+        <li>Final report shows how decisions compounded — not just what was completed</li>
+      </ul>
+    </div>
+    <div class="chain-viz">
+      <div class="chain-row">
+        <div class="chain-action">Skipped client check-in (Day 2)</div>
+        <div class="chain-arrow">→</div>
+        <div class="chain-result bad">Sarah feels out of the loop · trust −12%</div>
+      </div>
+      <div class="chain-row">
+        <div class="chain-action">Used data to defend targeting</div>
+        <div class="chain-arrow">→</div>
+        <div class="chain-result good">Mia begins offering analysis support</div>
+      </div>
+      <div class="chain-row">
+        <div class="chain-action">Justified budget cut with CAC data</div>
+        <div class="chain-arrow">→</div>
+        <div class="chain-result good">David recommends you to senior team</div>
+      </div>
+      <div class="chain-row">
+        <div class="chain-action">Forgot to flag risk on timeline</div>
+        <div class="chain-arrow">→</div>
+        <div class="chain-result bad">Day 5 launches late · client review tense</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DARK COMPARISON -->
+<div class="wrap">
+  <section class="dark-section">
+    <div class="wrap">
+      <div class="section-eyebrow">Compared to what's out there</div>
+      <h2 class="section-title">Static case studies <em>can't</em> teach what dynamic work actually feels like.</h2>
+      <div class="compare-grid">
+        <div class="compare-col old">
+          <div class="compare-label">Traditional virtual internships</div>
+          <h4>Forage, LinkedIn Learning, university case libraries</h4>
+          <ul class="compare-list">
+            <li>Linear: read → submit → certificate</li>
+            <li>No pushback, no stakeholder disagreement</li>
+            <li>Same experience for every student</li>
+            <li>Communication never assessed</li>
+            <li>No consequences for poor decisions</li>
+            <li>Pass/fail completion only</li>
+          </ul>
+        </div>
+        <div class="compare-col new">
+          <div class="compare-label">SkillBridge</div>
+          <h4>Dynamic, consequence-based AI simulation</h4>
+          <ul class="compare-list">
+            <li>Branching: every decision changes the story</li>
+            <li>Three AI stakeholders push back, negotiate, disagree</li>
+            <li>No two attempts unfold the same way</li>
+            <li>Communication scored as rigorously as decisions</li>
+            <li>Choices compound into final outcomes</li>
+            <li>Full skill report across four dimensions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- UNIVERSITY DASHBOARD -->
+<section class="section wrap" id="universities">
+  <div class="section-eyebrow">For universities</div>
+  <h2 class="section-title">Built to plug into your <em>career service.</em></h2>
+  <p class="section-sub">SkillBridge integrates with university LMS systems and gives career advisors a complete view of student progress, scenario engagement, and skill development across cohorts.</p>
+  <div class="dash-grid">
+    <div class="dash-mock">
+      <div class="dash-head">
+        <div class="dash-head-title">Career Service · Cohort Overview</div>
+        <div class="dash-head-meta">Updated 09:42</div>
+      </div>
+      <div class="dash-stats">
+        <div class="dash-stat"><div class="dash-stat-num">847</div><div class="dash-stat-label">Active students</div></div>
+        <div class="dash-stat"><div class="dash-stat-num">12<em>k</em></div><div class="dash-stat-label">Decisions made</div></div>
+        <div class="dash-stat"><div class="dash-stat-num">73<em>%</em></div><div class="dash-stat-label">Confidence ↑</div></div>
+      </div>
+    </div>
+    <div class="uni-features">
+      <div class="uni-feat"><div class="uni-feat-icon">i.</div><h5>LMS integration</h5><p>Single sign-on with Canvas, Moodle, and Blackboard. Roster sync. Grade passback. Standard LTI 1.3.</p></div>
+      <div class="uni-feat"><div class="uni-feat-icon">ii.</div><h5>Educator dashboard</h5><p>See where each student is, what they're struggling with, and which scenarios are landing across the cohort.</p></div>
+      <div class="uni-feat"><div class="uni-feat-icon">iii.</div><h5>Curriculum mapping</h5><p>Scenarios mapped to graduate employability frameworks and individual program learning outcomes.</p></div>
+      <div class="uni-feat"><div class="uni-feat-icon">iv.</div><h5>Australian-hosted data</h5><p>All student data hosted on Australian servers. Compliant with the Australian Privacy Principles.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section wrap">
+  <div class="section-eyebrow">From students and educators</div>
+  <h2 class="section-title">What people who've <em>used it</em> say.</h2>
+  <div class="testi-grid">
+    <div class="testi">
+      <div class="testi-quote">"It was the first time I felt the <em>pressure</em> of explaining a decision to someone who pushed back. I learned more in 90 minutes than in a whole semester of case studies."</div>
+      <div class="testi-person"><div class="testi-av">SK</div><div><div class="testi-name">Sophie K.</div><div class="testi-role">Commerce, University of Melbourne</div></div></div>
+    </div>
+    <div class="testi">
+      <div class="testi-quote">"Our students were <em>completing internships in 90 minutes</em> that they couldn't have accessed in real life. The skill data we got back was unlike anything from traditional assessments."</div>
+      <div class="testi-person"><div class="testi-av">RM</div><div><div class="testi-name">Dr. Rachel M.</div><div class="testi-role">Career Services, RMIT</div></div></div>
+    </div>
+    <div class="testi">
+      <div class="testi-quote">"I made every mistake I'd been making in interviews — but with no real consequences. By the end I knew how to talk through a decision under pressure. <em>Real</em> pressure."</div>
+      <div class="testi-person"><div class="testi-av">JT</div><div><div class="testi-name">James T.</div><div class="testi-role">Engineering, Monash University</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG STATS -->
+<div class="wrap">
+  <section class="bigstats">
+    <div class="bigstats-eyebrow">Pilot results · Semester 1, 2026</div>
+    <h3>Numbers from our <em>first cohort</em> across three Australian universities.</h3>
+    <div class="bigstats-grid">
+      <div><div class="bigstat-num">5,200<em>+</em></div><div class="bigstat-label">Students trained across pilot programs</div></div>
+      <div><div class="bigstat-num">92<em>%</em></div><div class="bigstat-label">Would recommend SkillBridge to a peer</div></div>
+      <div><div class="bigstat-num">73<em>%</em></div><div class="bigstat-label">Reported a measurable increase in workplace confidence</div></div>
+      <div><div class="bigstat-num">3.2<em>×</em></div><div class="bigstat-label">More decision moments than equivalent case studies</div></div>
+    </div>
+  </section>
+</div>
+
+<!-- TRUST -->
+<section class="section wrap">
+  <div class="section-eyebrow">Trust & safety</div>
+  <h2 class="section-title">An AI product, designed <em>responsibly.</em></h2>
+  <p class="section-sub">We've built SkillBridge to a higher bar than the typical edtech tool — because we're working with student data, AI judgement, and outcomes that matter.</p>
+  <div class="trust-grid">
+    <div class="trust-card"><div class="trust-icon">P</div><h5>Privacy first</h5><p>We collect the minimum data needed to deliver the service. Students can review, export, or delete their data at any time. A full Privacy Impact Assessment is published on request.</p></div>
+    <div class="trust-card"><div class="trust-icon">B</div><h5>Bias auditing</h5><p>Skill scoring is audited quarterly for fairness across English-as-a-second-language students, communication styles, and cultural backgrounds. Audit reports are shared with partner universities.</p></div>
+    <div class="trust-card"><div class="trust-icon">F</div><h5>Developmental, not deterministic</h5><p>All AI feedback is labelled as <em>developmental</em> — designed to support student growth, never to substitute for hiring decisions or formal academic assessment.</p></div>
+    <div class="trust-card"><div class="trust-icon">E</div><h5>Educator oversight</h5><p>Career advisors and faculty have visibility into how students are using the platform — including the ability to flag, review, or contextualise any AI-generated feedback.</p></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section wrap" id="pricing">
+  <div class="section-eyebrow">Pricing</div>
+  <h2 class="section-title">Built for <em>institutions.</em> Free for students.</h2>
+  <p class="section-sub">SkillBridge is sold as an annual license to universities and career services. Students never pay, never see ads, and never have their data sold.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-eyebrow">Career Service · Starter</div>
+      <div class="price-name">Career <em>Service</em></div>
+      <div class="price-amount">From AUD $25k</div>
+      <div class="price-note">per year · up to 500 active students</div>
+      <ul class="price-list">
+        <li>Up to 500 active students</li>
+        <li>Full simulation library</li>
+        <li>Career advisor dashboard</li>
+        <li>Quarterly skill reports</li>
+        <li>Email support</li>
+        <li>Standard LTI integration</li>
+      </ul>
+      <a href="#cta" class="price-cta">Talk to us →</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-eyebrow">University · Institutional</div>
+      <div class="price-name">Institutional <em>License</em></div>
+      <div class="price-amount">Custom</div>
+      <div class="price-note">unlimited students · campus-wide deployment</div>
+      <ul class="price-list">
+        <li>Unlimited students</li>
+        <li>Custom scenarios co-developed with faculty</li>
+        <li>Full educator + admin dashboard suite</li>
+        <li>SSO + roster sync (Canvas / Moodle / Blackboard)</li>
+        <li>Dedicated implementation partner</li>
+        <li>Bias audit reports + quarterly review</li>
+        <li>Australian data residency</li>
+      </ul>
+      <a href="#cta" class="price-cta">Request a quote →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section wrap">
+  <div class="section-eyebrow">Common questions</div>
+  <h2 class="section-title">Things <em>everyone</em> asks us.</h2>
+  <div class="faq-list">
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How is SkillBridge different from Forage?<span class="faq-toggle">+</span></div><div class="faq-a"><p>Forage offers static, linear virtual experiences — students read a brief and submit preset tasks. SkillBridge is dynamic and consequential: AI stakeholders push back on student reasoning, scenarios branch based on choices, and the final report reflects how students decided and communicated, not just what they completed.</p></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is the AI biased toward certain communication styles?<span class="faq-toggle">+</span></div><div class="faq-a"><p>We audit our scoring models quarterly for fairness across English-as-a-second-language students, neurodivergent communication patterns, and cultural communication styles. Audit results are published to partner universities, and our skill model explicitly avoids penalising non-native phrasing.</p></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What student data do you collect?<span class="faq-toggle">+</span></div><div class="faq-a"><p>We collect the minimum needed: name, email, university, scenario responses, and skill scores. All data is stored on Australian servers, retained only for the duration of the license agreement, and never sold or shared with recruiters without explicit, separate consent. Our full Privacy Impact Assessment is available on request.</p></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can students use SkillBridge for free?<span class="faq-toggle">+</span></div><div class="faq-a"><p>Yes — students never pay. SkillBridge is sold as an institutional license to universities, who then provide free access to their students. We also run a free open library of three introductory scenarios for any student to try independently.</p></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can scenarios be customised for specific programs?<span class="faq-toggle">+</span></div><div class="faq-a"><p>Institutional license customers can co-develop custom scenarios with our content team. We've built bespoke modules for healthcare programs (clinical handovers), law schools (client intake), and engineering faculties (stakeholder briefing) in our pilot cohort.</p></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How long does each simulation take?<span class="faq-toggle">+</span></div><div class="faq-a"><p>Most simulations run 60–90 minutes, designed to fit a single sitting. Students can pause and return at any time. Some advanced multi-day scenarios run 3–5 hours across multiple sessions.</p></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Do employers see student scores?<span class="faq-toggle">+</span></div><div class="faq-a"><p>Not by default. Skill reports belong to the student. We've designed an opt-in feature where students can share specific reports with employers as part of an application, but this is always student-initiated and clearly labelled as developmental data, not a recruitment screening score.</p></div></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="wrap">
+  <section class="final-cta" id="cta">
+    <h2>Ready to <em>bridge the gap?</em></h2>
+    <div class="final-cta-btns">
+      <a href="#" class="btn-primary">Book a demo →</a>
+      <a href="#simulations" class="btn-secondary">Or browse the simulation library</a>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer wrap">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo"><div class="logo-mark">S</div>SkillBridge</div>
+      <div class="footer-tag">Workplace <em>experience,</em><br>on tap.</div>
+      <div class="footer-newsletter">Get our quarterly report on graduate employability.</div>
+      <form class="footer-news-form" onsubmit="event.preventDefault();this.querySelector('button').textContent='Thanks ✓'">
+        <input type="email" placeholder="you@university.edu" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+    <div class="footer-col"><h6>Product</h6><ul><li><a href="#how">How it works</a></li><li><a href="#simulations">Simulation library</a></li><li><a href="#universities">Educator dashboard</a></li><li><a href="#">Roadmap</a></li><li><a href="#">Changelog</a></li></ul></div>
+    <div class="footer-col"><h6>For partners</h6><ul><li><a href="#">Universities</a></li><li><a href="#">Career services</a></li><li><a href="#">Employers</a></li><li><a href="#">Pilot program</a></li><li><a href="#">Integrations</a></li></ul></div>
+    <div class="footer-col"><h6>Company</h6><ul><li><a href="#">About us</a></li><li><a href="#">Team</a></li><li><a href="#">Press kit</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div class="footer-col"><h6>Resources</h6><ul><li><a href="#">Blog</a></li><li><a href="#">Employability report</a></li><li><a href="#">Privacy & PIA</a></li><li><a href="#">Terms of service</a></li><li><a href="#">Bias audits</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 SkillBridge Pty Ltd · Built in Melbourne</div>
+    <div class="footer-social"><a href="#">Twitter</a><a href="#">LinkedIn</a><a href="#">YouTube</a><a href="#">Email</a></div>
+  </div>
+</footer>
+
+<script>
+  // Simple filter button toggle (visual only — all cards visible by default)
+  document.querySelectorAll('.sim-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sim-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
